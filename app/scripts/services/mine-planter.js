@@ -20,14 +20,14 @@
       do {
         i = this.randomize(content.length);
         j = this.randomize(content[0].length);
-      } while (content[i][j].isMine());
+      }
+      while (content[i][j].isMine());
       content[i][j].setMine();
     };
 
     this.randomize = function (maxNum) {
       return Math.floor((Math.random() * maxNum));
     };
-
   }
 
   angular

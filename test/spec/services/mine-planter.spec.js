@@ -2,48 +2,64 @@
 
 describe('Service: minePlanter', function () {
 
+  var spyIsMine, spySetMine;
   // load the service's module
   beforeEach(function () {
     module('minesweeperGameAppInternal');
 
     //add your mocks here
+    spyIsMine = jasmine.createSpy('spyIsMine').andCallFake(function (value) {
+      return value === -1;
+    });
 
+    spySetMine = jasmine.createSpy('spySetMine').andCallFake(function () {
+      return -1;
+    });
   });
 
   // instantiate service
   var minePlanter;
   var boardContentMock;
-  function countMines(boardContent) {
-    var counter = 0;
-    boardContent.map(function (row) {
-      row.map(function (member) {
-        if (member === -1) {
-          counter++;
-        }
-      });
-    });
-    return counter;
+
+  function CellMock() {
+    this.value = 0;
+    this.isMine = function () {
+      return spyIsMine(this.value);
+    };
+    this.setMine = function () {
+      this.value = spySetMine();
+    };
+  }
+
+  function createMock(rows, cols) {
+    var arr = [];
+    for (var i = 0; i < rows; i++) {
+      arr.push([]);
+      for (var j = 0; j < cols; j++) {
+        arr[i].push(new CellMock());
+      }
+    }
+    return arr;
   }
 
   beforeEach(inject(function (_minePlanter_) {
     minePlanter = _minePlanter_;
+    boardContentMock = createMock(3, 3);
   }));
 
   it('should plant a single mine on the board', function () {
-    boardContentMock = [[0, 0], [0, 0], [0, 0]];
     minePlanter.plant(boardContentMock, 2);
-    var counter = countMines(boardContentMock);
-    expect(counter).toEqual(2);
+    expect(spySetMine.calls.length).toEqual(2);
   });
 
   it('should\'nt plant two mines in the same place', function () {
-    boardContentMock = [[0, 0], [0, 0], [0, 0]];
     var counter = 0, fakeRandomIndexes = [0, 0, 0, 0, 1, 0];
     spyOn(minePlanter, 'randomize').andCallFake(function () {
       return fakeRandomIndexes[counter++];
     });
     minePlanter.plant(boardContentMock, 2);
-    expect(countMines(boardContentMock)).toEqual(2);
+    expect(spySetMine.calls.length).toEqual(2);
+    expect(spyIsMine.calls.length).toEqual(3);
   });
 
 });

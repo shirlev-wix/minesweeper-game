@@ -81,6 +81,8 @@
     <script src="scripts/services/board.js"></script>
     <script src="scripts/services/mine-planter.js"></script>
     <script src="scripts/services/cell.js"></script>
+    <script src="scripts/directives/with-right-click.js"></script>
+    <script src="scripts/directives/right-click.js"></script>
     <!-- endbuild --><!-- scripts -->
     <!-- end-process-tags -->
 

@@ -9,6 +9,7 @@
       this.value = 0;
       this.hasFlag = false;
       this.isRevealed = false;
+      this.neighbours = [];
     }
 
     // Service logic
@@ -29,6 +30,13 @@
 
     Cell.prototype.setMine = function () {
       this.value = -1;
+    };
+
+    Cell.prototype.calcVal = function (neighbours) {
+      var arr = neighbours.filter(function (cell) {
+        return cell.isMine();
+      });
+      this.value = arr.length;
     };
 
     return Cell;

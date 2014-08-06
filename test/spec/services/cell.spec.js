@@ -2,6 +2,8 @@
 
 describe('Service: cell', function () {
 
+  var neighboursMock;
+
   // load the service's module
   beforeEach(function () {
     module('minesweeperGameAppInternal');
@@ -45,6 +47,12 @@ describe('Service: cell', function () {
   it('should set cell value to mine', function () {
     cell.setMine();
     expect(cell.isMine()).toBe(true);
+  });
+  it('should set cell value according to #neighbours which are mines', function () {
+    neighboursMock = [new Cell()];
+    neighboursMock[0].setMine();
+    cell.calcVal(neighboursMock);
+    expect(cell.value).toBe(1);
   });
 
 });
