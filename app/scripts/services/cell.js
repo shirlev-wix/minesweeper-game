@@ -17,11 +17,18 @@
 
     // Public API here
     Cell.prototype.toggleFlag = function () {
-      this.hasFlag = !this.hasFlag;
+      if (!this.isRevealed){
+        this.hasFlag = !this.hasFlag;
+      }
     };
 
     Cell.prototype.reveal = function () {
-      this.isRevealed = !this.isRevealed;
+      this.isRevealed = true;
+      this.hasFlag = false;
+    };
+
+    Cell.prototype.isEmpty = function () {
+      return this.value === 0;
     };
 
     Cell.prototype.isMine = function () {
@@ -32,7 +39,8 @@
       this.value = -1;
     };
 
-    Cell.prototype.calcVal = function (neighbours) {
+    Cell.prototype.calcVal = function () {
+      var neighbours = this.neighbours;
       var arr = neighbours.filter(function (cell) {
         return cell.isMine();
       });

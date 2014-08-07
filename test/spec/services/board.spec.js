@@ -20,6 +20,9 @@ describe('Service: board', function () {
   it('should create empty board', function () {
     expect(new Board()).toBeDefined();
   });
+  it('should initialize board with state game', function () {
+    expect(new Board().state).toEqual('game');
+  });
   it('should return the the i,j cell', inject(function (Cell) {
     expect(new Board(1, 1).getCell(0, 0) instanceof Cell).toBe(true);
   }));
@@ -78,16 +81,16 @@ describe('Service: board', function () {
 
   describe('board.reveal(i, j)', function () {
 
-//    var counter, fakeRandomIndexes = [0, 2, 2, 2];
-//    function fakeRandom() {
-//     return fakeRandomIndexes[counter++];
-//    }
-
     beforeEach(function () {
       board = new Board(3, 3);
       board.getCell(0, 2).setMine();
       board.getCell(2, 2).setMine();
+      board.calcAmountToReveal(3, 3, 2);
       board.calcCellsValues();
+    });
+
+    it('amountToReveal', function () {
+      expect(board.amountToReveal).toEqual(3 * 3 - 2);
     });
 
     it('should reveal only current cell if it has positive non-mine value', function () {
@@ -95,8 +98,13 @@ describe('Service: board', function () {
       expect(board.getCell(1, 2).isRevealed).toEqual(true);
       expect(board.getCell(0, 0).isRevealed).toEqual(false);
     });
-    it('should return 0 (end game) if we revealed a mine', function () {
-      expect(board.reveal(board.getCell(0, 2))).toEqual(0);
+    it('it should update amountToReveal after revealing', function () {
+      board.reveal(board.getCell(1, 2));
+      expect(board.amountToReveal).toEqual(3 * 3 - 2 - 1);
+    });
+    it('should change game state to "lose" if we revealed a mine', function () {
+      board.reveal(board.getCell(0, 2));
+      expect(board.state).toEqual('lose');
     });
     it('should\'nt reveal a cell which is already revealed', function () {
       board.reveal(board.getCell(1, 2));
@@ -109,6 +117,12 @@ describe('Service: board', function () {
       expect(board.getCell(0, 1).isRevealed).toEqual(true);
       expect(board.getCell(1, 0).isRevealed).toEqual(true);
       expect(board.getCell(1, 2).isRevealed).toEqual(false);
+      expect(board.amountToReveal).toEqual(3 * 3 - 2 - 6);
+    });
+    it('should change game state to "win" if we revealed all cells without revealing mines', function () {
+      board.reveal(board.getCell(0, 0));
+      board.reveal(board.getCell(1, 2));
+      expect(board.state).toEqual('win');
     });
   });
 });

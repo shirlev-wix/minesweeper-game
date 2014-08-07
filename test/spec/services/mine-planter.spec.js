@@ -12,9 +12,7 @@ describe('Service: minePlanter', function () {
       return value === -1;
     });
 
-    spySetMine = jasmine.createSpy('spySetMine').andCallFake(function () {
-      return -1;
-    });
+    spySetMine = jasmine.createSpy('spySetMine').andReturn(-1);
   });
 
   // instantiate service
@@ -54,7 +52,7 @@ describe('Service: minePlanter', function () {
 
   it('should\'nt plant two mines in the same place', function () {
     var counter = 0, fakeRandomIndexes = [0, 0, 0, 0, 1, 0];
-    spyOn(minePlanter, 'randomize').andCallFake(function () {
+    minePlanter.randomize = jasmine.createSpy().andCallFake(function () {
       return fakeRandomIndexes[counter++];
     });
     minePlanter.plant(boardContentMock, 2);

@@ -41,6 +41,11 @@ describe('Service: cell', function () {
     cell.reveal();
     expect(cell.isRevealed).toBe(true);
   });
+  it('should do nothing when trying to reveal a cell which is already revealed', function () {
+    cell.reveal();
+    cell.reveal();
+    expect(cell.isRevealed).toBe(true);
+  });
   it('should return true iff cell with mine', function () {
     expect(cell.isMine()).toBe(false);
   });
@@ -51,7 +56,8 @@ describe('Service: cell', function () {
   it('should set cell value according to #neighbours which are mines', function () {
     neighboursMock = [new Cell()];
     neighboursMock[0].setMine();
-    cell.calcVal(neighboursMock);
+    cell.neighbours = neighboursMock;
+    cell.calcVal();
     expect(cell.value).toBe(1);
   });
 

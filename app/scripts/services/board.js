@@ -20,7 +20,7 @@
       }
     }
 
-    function outOfRange(index, size) {
+    function isOutOfRange(index, size) {
       return index < 0 || index >= size;
     }
 
@@ -29,8 +29,11 @@
         throw new Error('Too many mines for board from size: ' + nRows + ' X ' + nCols);
       }
       this.content = [];
+      this.state = 'game';
+      nMines = nMines || 0;
+      this.calcAmountToReveal(nRows, nCols, nMines);
       initialize(this.content, nRows, nCols);
-      minePlanter.plant(this.content, nMines || 0);
+      minePlanter.plant(this.content, nMines);
       this.calcCellsValues();
     }
     // Service logic
@@ -44,7 +47,7 @@
           neighbours = this.calcNeighbours(i, j);
           current = this.content[i][j];
           if (!current.isMine()) {
-            current.calcVal(neighbours);
+            current.calcVal();
           }
         }
       }
@@ -52,6 +55,10 @@
 
     Board.prototype.getCell = function (row, col) {
       return this.content[row][col];
+    };
+
+    Board.prototype.calcAmountToReveal = function (nRows, nCols, nMines) {
+      this.amountToReveal = nRows * nCols - nMines;
     };
 
     Board.prototype.getRow = function (row) {
@@ -66,9 +73,15 @@
       if (cell.isRevealed) {
         return;
       } else if (cell.isMine()) {
-        return 0;
+        cell.reveal();
+        this.state = 'lose';
       } else {
         cell.reveal();
+        this.amountToReveal--;
+        if (!this.amountToReveal) {
+          this.state = 'win';
+          return;
+        }
       }
       if (cell.value === 0) {
         for (var i = 0; i < cell.neighbours.length; i++) {
@@ -77,8 +90,8 @@
       }
     };
 
-    function checkRange(matrix, i, row, j, col) {
-      return outOfRange(i + row, matrix.length) || outOfRange(j + col, matrix[0].length);
+    function checkRanges(matrix, i, row, j, col) {
+      return isOutOfRange(i + row, matrix.length) || isOutOfRange(j + col, matrix[0].length);
     }
 
     function sameIndex(row, col) {
@@ -95,7 +108,7 @@
         for (var col = -1; col < 2; col++) {
           if (sameIndex(row, col)) {
             continue;
-          } else if (checkRange(this.content, i, row, j, col)) {
+          } else if (checkRanges(this.content, i, row, j, col)) {
             continue;
           } else {
             addNeighbour.call(this, neighbours, i, row, j, col);

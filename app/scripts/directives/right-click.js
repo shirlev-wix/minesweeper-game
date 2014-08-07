@@ -7,7 +7,7 @@
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        var fn = $parse(attrs.ngRightClick);
+        var fn = $parse(attrs.rightClick);
         element.bind('contextmenu', function (event) {
           scope.$apply(function () {
             event.preventDefault();
