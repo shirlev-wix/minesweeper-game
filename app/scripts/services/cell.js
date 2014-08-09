@@ -23,8 +23,9 @@
     };
 
     Cell.prototype.reveal = function () {
-      this.isRevealed = true;
-      this.hasFlag = false;
+      if (!this.hasFlag) {
+        this.isRevealed = true;
+      }
     };
 
     Cell.prototype.isEmpty = function () {

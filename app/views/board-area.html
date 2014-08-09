@@ -1,8 +1,8 @@
 <div>
     <div class="board-container" align="center">
         <div class="row" ng-repeat="row in gameCtrl.rowsArr">
-            <button ng-repeat="cell in row" class="cell" ng-class="{'active': cell.isRevealed, 'active': cell.hasFlag, 'flag': cell.hasFlag, 'mine': cell.isMine()}" ng-click="gameCtrl.reveal(cell)" right-click="cell.toggleFlag()">
-                <text ng-class="{'invisible': !cell.isRevealed, 'zero': cell.isEmpty(), 'mine': cell.isMine()}">{{cell.value}}</text>
+            <button ng-repeat="cell in row" class="cell" ng-class="{'active': (cell.isRevealed || cell.hasFlag), 'mine': cell.isMine(), 'flag': cell.hasFlag}" ng-click="gameCtrl.reveal(cell)" right-click="cell.toggleFlag()">
+                <text ng-class="{'invisible': ((!cell.isRevealed || cell.isEmpty()) || cell.isMine())}">{{cell.value}}</text>
             </button>
         </div>
     </div>

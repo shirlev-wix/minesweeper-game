@@ -1,11 +1,11 @@
 <div class="config">
     <form ng-submit="gameCtrl.startGame()" align="center">
         <fieldset>
-            <input id="beginner" type="radio" name="level" checked="checked" data-rows="9" data-cols="9" data-mines="10">
+            <input id="beginner" type="radio" name="level" ng-click="gameCtrl.setLevel('beginner')" checked="checked">
             <label for="beginner">Beginner</label>
-            <input id="intermediate" type="radio" name="level" data-rows="16" data-cols="16" data-mines="40">
+            <input id="intermediate" type="radio" name="level" ng-click="gameCtrl.setLevel('intermediate')">
             <label for="intermediate">Intermediate</label>
-            <input id="expert" type="radio" name="level" data-rows="30" data-cols="16" data-mines="99">
+            <input id="expert" type="radio" name="level" ng-click="gameCtrl.setLevel('expert')">
             <label for="expert">Expert</label>
             <input id="custom" type="radio" name="level">
             <label for="custom">Custom</label>

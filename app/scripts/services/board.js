@@ -70,22 +70,35 @@
     };
 
     Board.prototype.reveal = function (cell) {
-      if (cell.isRevealed) {
+//      if (cell.isRevealed) {
+//        return;
+//      } else if (cell.isMine()) {
+//        cell.reveal();
+//        this.state = 'lose';
+//      } else {
+//        cell.reveal();
+//        this.amountToReveal--;
+//        if (!this.amountToReveal) {
+//          this.state = 'win';
+//          return;
+//        }
+//      }
+      if (cell.isRevealed || cell.hasFlag) {
         return;
-      } else if (cell.isMine()) {
-        cell.reveal();
+      }
+      cell.reveal();
+      if (cell.isMine()){
         this.state = 'lose';
-      } else {
-        cell.reveal();
+      }else {
         this.amountToReveal--;
         if (!this.amountToReveal) {
           this.state = 'win';
           return;
         }
-      }
-      if (cell.value === 0) {
-        for (var i = 0; i < cell.neighbours.length; i++) {
-          this.reveal(cell.neighbours[i]);
+        if (cell.value === 0 && !cell.hasFlag) {
+          for (var i = 0; i < cell.neighbours.length; i++) {
+            this.reveal(cell.neighbours[i]);
+          }
         }
       }
     };
