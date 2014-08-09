@@ -2,9 +2,4 @@
 <h1>Minesweeper Game</h1>
 <div ng-include="'views/game-configuration.html'"></div>
 <div ng-include="'views/board-area.html'"></div>
-<div class="black-overlay" ng-class="{'hide': (gameCtrl.isInState('initial') || gameCtrl.isInState('game'))}">
-<div class="pop-up-image" ng-class="{'hide': (gameCtrl.isInState('initial') || gameCtrl.isInState('game')), 'win' :gameCtrl.isInState('win'), 'lose' :gameCtrl.isInState('lose')}">
-<div align="center" ng-class="{'hide': (gameCtrl.isInState('initial') || gameCtrl.isInState('game'))}">{{gameCtrl.msg}}</div>
-</div>
-<div class="close-image" ng-class="{'hide': (gameCtrl.isInState('initial') || gameCtrl.isInState('game'))}" ng-click="gameCtrl.state='initial'"></div>
-</div>
+<div class="pop-up-image" ng-class="{'hide': (gameCtrl.isInState('initial') || gameCtrl.isInState('game')), 'win' :gameCtrl.isInState('win'), 'lose' :gameCtrl.isInState('lose')}" ng-click="gameCtrl.state='initial'"></div>

@@ -7,19 +7,17 @@
             <label for="intermediate">Intermediate</label>
             <input id="expert" type="radio" name="level" ng-click="gameCtrl.setLevel('expert')">
             <label for="expert">Expert</label>
-            <input id="custom" type="radio" name="level">
-            <label for="custom">Custom</label>
         </fieldset>
         <fieldset class="custom">
-            <label for="rows"># Rows</label>
+            <label for="rows">#Rows</label>
             <input id="rows" type="number" name="rows" value="9" min="9" max="30" ng-model="gameCtrl.rows">
         </fieldset>
         <fieldset class="custom">
-            <label for="cols"># Cols</label>
+            <label for="cols">#Cols</label>
             <input id="cols" type="number" name="cols" value="9" min="9" max="24" ng-model="gameCtrl.cols">
         </fieldset>
         <fieldset class="custom">
-            <label for="mines"># Mines</label>
+            <label for="mines">#Mines</label>
             <input id="mines" type="number" name="mines" value="10" min="10" max="667" ng-model="gameCtrl.mines">
         </fieldset>
         <input type="submit" value="Play!">

@@ -45,6 +45,7 @@
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="stylesheet" href="${staticBaseUrl}services/third-party/fonts/Helvetica/fontFace.css">
+    <link href='http://fonts.googleapis.com/css?family=Cinzel:400,900' rel='stylesheet' type='text/css'>
     <!-- process-tags prefix('${staticsUrl}') -->
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
